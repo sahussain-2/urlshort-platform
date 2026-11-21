@@ -9,6 +9,7 @@ app = FastAPI(title="urlshort-platform")
 links: dict[str, str] = {}
 clicks: dict[str, int] = {}
 
+
 class LinkCreate(BaseModel):
     url: str
 
@@ -25,11 +26,13 @@ def create_link(payload: LinkCreate):
     clicks[code] = 0
     return {"code": code, "url": payload.url}
 
+
 @app.get("/links/{code}/stats")
 def link_stats(code: str):
     if code not in links:
         raise HTTPException(status_code=404, detail="Link not found")
     return {"code": code, "url": links[code], "clicks": clicks[code]}
+
 
 @app.get("/{code}")
 def follow_link(code: str):
