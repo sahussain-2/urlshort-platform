@@ -3,7 +3,7 @@ import secrets
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 from app.config import BASE_URL, LOG_LEVEL
 
@@ -18,7 +18,7 @@ clicks: dict[str, int] = {}
 
 
 class LinkCreate(BaseModel):
-    url: str
+    url: HttpUrl
 
 
 @app.get("/health")
@@ -29,12 +29,13 @@ def health():
 @app.post("/links")
 def create_link(payload: LinkCreate):
     code = secrets.token_urlsafe(5)
-    links[code] = payload.url
+    url = str(payload.url)
+    links[code] = url
     clicks[code] = 0
     logger.info("link created code=%s", code)
     return {
         "code": code,
-        "url": payload.url,
+        "url": url,
         "short_url": f"{BASE_URL}/{code}",
     }
 

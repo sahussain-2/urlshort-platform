@@ -48,3 +48,13 @@ def test_create_link_returns_short_url():
     response = client.post("/links", json={"url": "https://example.com/page"})
     data = response.json()
     assert data["short_url"].endswith("/" + data["code"])
+
+
+def test_create_link_rejects_invalid_url():
+    response = client.post("/links", json={"url": "string"})
+    assert response.status_code == 422
+
+
+def test_create_link_rejects_non_http_scheme():
+    response = client.post("/links", json={"url": "javascript:alert(1)"})
+    assert response.status_code == 422
