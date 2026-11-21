@@ -20,3 +20,25 @@ def test_follow_link_redirects_to_original_url():
     response = client.get(f"/{code}", follow_redirects=False)
     assert response.status_code == 307
     assert response.headers["location"] == "https://example.com/page"
+
+
+def test_stats_counts_clicks():
+    created = client.post("/links", json={"url": "https://example.com/page"})
+    code = created.json()["code"]
+
+    client.get(f"/{code}", follow_redirects=False)
+    client.get(f"/{code}", follow_redirects=False)
+
+    response = client.get(f"/links/{code}/stats")
+    assert response.status_code == 200
+    assert response.json()["clicks"] == 2
+
+
+def test_unknown_code_returns_404():
+    response = client.get("/doesnotexist", follow_redirects=False)
+    assert response.status_code == 404
+
+
+def test_create_link_without_url_returns_422():
+    response = client.post("/links", json={})
+    assert response.status_code == 422
