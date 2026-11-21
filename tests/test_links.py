@@ -42,3 +42,9 @@ def test_unknown_code_returns_404():
 def test_create_link_without_url_returns_422():
     response = client.post("/links", json={})
     assert response.status_code == 422
+
+
+def test_create_link_returns_short_url():
+    response = client.post("/links", json={"url": "https://example.com/page"})
+    data = response.json()
+    assert data["short_url"].endswith("/" + data["code"])
