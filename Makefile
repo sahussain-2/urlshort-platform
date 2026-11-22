@@ -1,4 +1,4 @@
-.PHONY: help status lint format test
+.PHONY: help status lint format test check
 
 help:
 	@echo "Available targets:"
@@ -6,7 +6,8 @@ help:
 	@echo "  make lint    check code style with ruff"
 	@echo "  make format  format code with ruff"
 	@echo "  make test    run the test suite"
-
+	@echo "  make check   check that the running service is healthy"
+	
 status:
 	@git branch --show-current
 	@git status --short
@@ -20,3 +21,6 @@ format:
 
 test:
 	@python -m pytest -v
+
+check:
+	@python scripts/check_health.py
