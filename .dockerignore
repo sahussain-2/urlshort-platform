@@ -1,0 +1,23 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_*
+
+# python / tools
+.venv/
+__pycache__/
+*.__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Not needed at runtime
+.git/
+.github/
+.vscode/
+docs/
+infra/
+ansible/
+scripts/
