@@ -8,8 +8,8 @@ id_*
 
 # python / tools
 .venv/
-__pycache__/
-*.__pycache__/
+**/__pycache__/
+**/*.pyc
 .pytest_cache/
 .ruff_cache/
 
@@ -17,6 +17,7 @@ __pycache__/
 .git/
 .github/
 .vscode/
+tests/
 docs/
 infra/
 ansible/
