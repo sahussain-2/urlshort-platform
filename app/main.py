@@ -15,6 +15,7 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s %(message)s",
 )
 logger = logging.getLogger("urlshort")
+storage.init_db()
 
 
 class LinkCreate(BaseModel):

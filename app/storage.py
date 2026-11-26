@@ -52,3 +52,14 @@ def get_stats(code):
             (code,),
         ).fetchone()
     return row
+
+
+def init_db():
+
+    with get_connection() as conn:
+        conn.execute(
+            "CREATE TABLE IF NOT EXISTS links ("
+            "code text PRIMARY KEY, "
+            "url text NOT NULL, "
+            "clicks integer NOT NULL DEFAULT 0)"
+        )
