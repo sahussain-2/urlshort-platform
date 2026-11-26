@@ -63,3 +63,9 @@ def init_db():
             "url text NOT NULL, "
             "clicks integer NOT NULL DEFAULT 0)"
         )
+
+
+def ping():
+
+    with get_connection() as conn:
+        conn.execute("SELECT 1")
