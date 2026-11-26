@@ -27,6 +27,16 @@ def health():
     return {"status": "ok", "service": "urlshort"}
 
 
+@app.get("/ready")
+def ready():
+    try:
+        storage.ping()
+    except Exception:
+        logger.exception("database not ready")
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    return {"status": "ready"}
+
+
 @app.post("/links")
 def create_link(payload: LinkCreate):
     url = str(payload.url)
