@@ -33,7 +33,7 @@ def create_link(code, url):
 
 
 def increment_clicks(code):
-    
+
     with get_connection() as conn:
         row = conn.execute(
             "UPDATE links SET clicks = clicks + 1 WHERE code = %s RETURNING clicks",
@@ -45,10 +45,21 @@ def increment_clicks(code):
 
 
 def get_stats(code):
-     
+
     with get_connection() as conn:
         row = conn.execute(
             "SELECT url, clicks FROM links WHERE code = %s",
             (code,),
         ).fetchone()
     return row
+
+
+def init_db():
+
+    with get_connection() as conn:
+        conn.execute(
+            "CREATE TABLE IF NOT EXISTS links ("
+            "code text PRIMARY KEY, "
+            "url text NOT NULL, "
+            "clicks integer NOT NULL DEFAULT 0)"
+        )
