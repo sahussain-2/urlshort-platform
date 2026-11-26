@@ -15,8 +15,6 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s %(message)s",
 )
 logger = logging.getLogger("urlshort")
-links: dict[str, str] = {}
-clicks: dict[str, int] = {}
 
 
 class LinkCreate(BaseModel):
